@@ -1,0 +1,23 @@
+
+image: python:3.12
+
+stages:
+  - build
+  - test
+
+build_job:
+  stage: build
+  script:
+    - python -m pip install pytest
+    - python -m compileall -q calculator.py test_calculator.py
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+
+test_job:
+  stage: test
+  script:
+    - python -m pip install pytest
+    - python -m pytest -v
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'
+  
